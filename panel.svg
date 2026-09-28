@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" width="640" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="">
+  <defs>
+    <radialGradient id="pGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#7dd3fc" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </radialGradient>
+
+    <pattern id="pGrid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0H0V26" fill="none" stroke="#dbeafe" stroke-opacity="0.20" stroke-width="1"/>
+    </pattern>
+
+    <linearGradient id="pFade" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="0.6" stop-color="#fff" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.12"/>
+    </linearGradient>
+
+    <mask id="pMask">
+      <rect width="640" height="900" fill="url(#pFade)"/>
+    </mask>
+  </defs>
+
+  <rect width="640" height="900" fill="#0b2545"/>
+  <ellipse cx="150" cy="150" rx="420" ry="380" fill="url(#pGlow)"/>
+  <rect width="640" height="900" fill="url(#pGrid)" mask="url(#pMask)"/>
+
+  <!-- a week of blocks, kept as outlines only -->
+  <g fill="#ffffff" fill-opacity="0.05" stroke="#dbeafe" stroke-opacity="0.22" stroke-width="1.4" stroke-linejoin="round">
+    <rect x="52" y="470" width="150" height="34" rx="8"/>
+    <rect x="214" y="470" width="150" height="34" rx="8"/>
+    <rect x="376" y="470" width="150" height="34" rx="8"/>
+    <rect x="52" y="516" width="212" height="34" rx="8"/>
+    <rect x="276" y="516" width="250" height="34" rx="8"/>
+    <rect x="52" y="562" width="474" height="34" rx="8"/>
+  </g>
+
+  <g fill="none" stroke="#7dd3fc" stroke-opacity="0.35" stroke-width="1.6" stroke-linecap="round">
+    <path d="M70 640h300M70 664h440M70 688h200"/>
+  </g>
+</svg>

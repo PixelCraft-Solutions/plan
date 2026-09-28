@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy · Study Planner</title>
+<meta name="description" content="Plan your A/L study week, track subject marks and watch your progress climb in one place.">
+<link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="campus-bg" aria-hidden="true"></div>
+
+<!-- announcement written by the owner of the site -->
+<div class="wb-banner" data-wb="banner" hidden>
+  <div class="wb-banner-in">
+    <span class="wb-banner-dot" aria-hidden="true"></span>
+    <b data-wb="bannerText"></b>
+  </div>
+</div>
+
+<div class="app" data-wb-lock>
+
+  <!-- ======================================================== app bar -->
+  <header class="appbar">
+    <div class="appbar-in">
+      <div class="brand">
+        <div class="brand-mark"><img src="assets/logo.png" alt=""></div>
+        <div class="brand-text">
+          <b data-wb="siteName">WorkBuddy</b>
+          <span data-wb="tagline">Study Planner</span>
+        </div>
+      </div>
+
+      <div class="appbar-spacer"></div>
+
+      <div class="weeknav">
+        <button class="icon-btn" id="prevW" title="Previous week" aria-label="Previous week">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="wk-range" id="weekRange">—<small>&nbsp;</small></div>
+        <button class="icon-btn" id="nextW" title="Next week" aria-label="Next week">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button id="goToday" title="Jump to this week">Today</button>
+      </div>
+
+      <button class="appbar-btn" id="btnCopyWeek" data-wb-feature="copyWeek" title="Copy this week's plan onto another week">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="12" height="12" rx="2.2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        <span id="copyWeekLabel">Copy Week</span>
+      </button>
+
+      <button class="icon-btn" id="btnClearWeek" title="Delete this week's plan" aria-label="Delete this week's plan" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn" id="btnSignOutTop" title="Sign out" aria-label="Sign out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 17l5-5-5-5M20 12H9M12 3H6a2 2 0 00-2 2v14a2 2 0 002 2h6"/>
+        </svg>
+      </button>
+
+      <button class="sync-pill" id="syncPill" data-state="synced" title="Sync status" hidden>
+        <span class="sp-text">Cloud</span>
+      </button>
+
+      <button class="who-btn" id="whoBtn" title="Account">
+        <span class="avatar" id="avatar">–</span>
+        <span class="who-txt">
+          <b id="whoName">Student</b>
+          <span id="whoExam">A/L</span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <div class="page">
+
+    <!-- ========================================================= tabs -->
+    <nav class="tabs" id="tabs">
+      <button data-tab="dash" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </button>
+      <button data-tab="tt" data-wb-feature="timetable">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M9 14h6"/></svg>
+        Timetable
+      </button>
+      <button data-tab="marks" data-wb-feature="marks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        Marks
+      </button>
+      <button data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 003.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H8a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V8a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>
+        Settings
+      </button>
+    </nav>
+
+    <!-- ===================================================== dashboard -->
+    <section class="page-body active" id="pageDash">
+
+      <div class="stack-v">
+
+        <div class="panel start-here" id="dashEmpty" hidden>
+          <div class="p-head">
+            <div>
+              <h2>Welcome — set up your subjects</h2>
+              <div class="p-sub">No subjects yet. Add the ones you actually study and the planner will build itself around them.</div>
+            </div>
+          </div>
+          <div class="start-here-actions">
+            <button class="btn primary" id="dashEmptyGo">Add your subjects</button>
+          </div>
+        </div>
+
+        <div class="countdown">
+          <div>
+            <div class="cd-l">A/L Examination</div>
+            <div class="cd-v" id="cdDate">—</div>
+          </div>
+          <div class="cd-main">
+            <div class="cd-pill"><b id="cdDays">—</b><span>Days</span></div>
+            <div class="cd-pill"><b id="cdWeeks">—</b><span>Weeks</span></div>
+            <div class="cd-pill"><b id="cdMonths">—</b><span>Months</span></div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat" style="--c:#38bdf8">
+            <div class="s-l">This Week</div>
+            <div class="s-v" id="stPlanned">0<small>sessions</small></div>
+            <div class="s-s" id="stPlannedSub">Nothing planned yet</div>
+          </div>
+          <div class="stat" style="--c:#0f9d76">
+            <div class="s-l">Completed</div>
+            <div class="s-v" id="stDone">0<small>done</small></div>
+            <div class="s-s" id="stDoneSub">Keep going</div>
+            <div class="s-bar"><i id="stDoneBar" style="width:0%"></i></div>
+          </div>
+          <div class="stat" style="--c:#f59e0b">
+            <div class="s-l">Remaining</div>
+            <div class="s-v" id="stLeft">0<small>left</small></div>
+            <div class="s-s" id="stLeftSub">Nothing outstanding</div>
+          </div>
+          <div class="stat" style="--c:#6366f1">
+            <div class="s-l">Study Time</div>
+            <div class="s-v" id="stTime">0h<small>00m</small></div>
+            <div class="s-s" id="stTimeSub">Planned this week</div>
+            <div class="s-bar"><i id="stTimeBar" style="width:0%"></i></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="p-head">
+              <div>
+                <h2>Daily progress</h2>
+                <div class="p-sub">Sessions completed each day of the selected week.</div>
+              </div>
+            </div>
+            <div class="dbars" id="dailyBars"></div>
+          </div>
+
+          <div class="panel">
+            <div class="p-head">
+              <div>
+                <h2>Subject progress</h2>
+                <div class="p-sub">Share of each subject's planned sessions completed.</div>
+              </div>
+            </div>
+            <div class="chart" id="subjChart"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="p-head">
+            <div>
+              <h2>Marks overview</h2>
+              <div class="p-sub">Average score per subject across every term test and paper you have entered.</div>
+            </div>
+          </div>
+          <div class="chart" id="marksChart"></div>
+        </div>
+
+        <div class="panel">
+          <div class="p-head">
+            <div>
+              <h2>Subject summary</h2>
+              <div class="p-sub">Time planned and sessions done for the selected week.</div>
+            </div>
+          </div>
+          <div class="sub-grid" id="subSummary"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== timetable -->
+    <section class="page-body" id="pageTT">
+
+      <div class="panel start-here" id="ttEmpty" hidden>
+        <div class="p-head">
+          <div>
+            <h2>Plan your week here</h2>
+            <div class="p-sub">This board is empty because you have no subjects yet. Add the subjects you study in Settings and sessions will line up here.</div>
+          </div>
+        </div>
+        <div class="start-here-actions">
+          <button class="btn primary" id="ttEmptyGo">Add your subjects</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="p-head">
+          <div>
+            <h2>Weekly timetable</h2>
+            <div class="p-sub">Click any block to edit it. Use the tick to mark a session done.</div>
+          </div>
+        </div>
+
+        <div class="tt-bar">
+          <div class="seg" id="ttFilter">
+            <button data-f="all" class="active">All</button>
+            <button data-f="study">Study</button>
+            <button data-f="class">Classes</button>
+            <button data-f="other">Other</button>
+          </div>
+          <div class="legend" id="ttLegend"></div>
+          <div style="flex:1"></div>
+          <button class="btn soft sm" id="btnAddTask">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add session
+          </button>
+        </div>
+
+        <div class="tt-scroll">
+          <div class="tt-grid" id="ttGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= marks -->
+    <section class="page-body" id="pageMarks">
+      <div class="panel">
+        <div class="p-head">
+          <div>
+            <h2>Marks &amp; progress</h2>
+            <div class="p-sub">Add as many tests and exams as you like for each subject. Everything is saved as you type.</div>
+          </div>
+          <div class="mk-toolbar" style="margin:0">
+            <select id="mkSubject" aria-label="Choose subject"></select>
+            <select id="mkTest" aria-label="Choose test"></select>
+            <button class="btn sm" id="mkAddTest" type="button">
+              <svg viewBox="0 0 24 24" class="i"><path d="M12 5v14M5 12h14"/></svg>
+              Add test
+            </button>
+            <button class="btn sm ghost" id="mkRenameTest" type="button" title="Rename this test">
+              <svg viewBox="0 0 24 24" class="i"><path d="M4 20h4L20 8l-4-4L4 16v4z"/></svg>
+            </button>
+            <button class="btn sm ghost" id="mkDelTest" type="button" title="Delete this test and its marks">
+              <svg viewBox="0 0 24 24" class="i"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="mk-new" id="mkNewRow" hidden>
+          <input id="mkNewName" type="text" maxlength="40" placeholder="Test name, e.g. Unit 2, Mock Exam, Unit 5" autocomplete="off">
+          <button class="btn sm primary" id="mkNewSave" type="button">Add</button>
+          <button class="btn sm ghost" id="mkNewCancel" type="button">Cancel</button>
+        </div>
+
+        <div id="mkEditor"></div>
+
+        <div class="p-head" style="margin:22px 0 12px">
+          <div>
+            <h2>Overall for this subject</h2>
+            <div class="p-sub">Every test added up, so you can see where you actually stand.</div>
+          </div>
+        </div>
+        <div id="mkOverall"></div>
+
+        <div class="p-head" style="margin:24px 0 12px">
+          <div>
+            <h2>Progress bar graph</h2>
+            <div class="p-sub">Each bar is one paper. Amber means the mark is below the target.</div>
+          </div>
+        </div>
+        <div class="chart" id="mkChart"></div>
+
+        <div class="p-head" style="margin:24px 0 12px">
+          <div>
+            <h2>All results</h2>
+            <div class="p-sub">Every test, grouped by subject, with the subject total at the end.</div>
+          </div>
+        </div>
+        <div class="mk-wrap" id="mkAll"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================== settings -->
+    <section class="page-body" id="pageSettings">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="set-block">
+            <h3>Your account</h3>
+            <div class="sb-s">These details come from your registration and can be edited here.</div>
+            <div class="stack">
+              <div class="field">
+                <label for="setName">Display name</label>
+                <input id="setName" type="text" placeholder="Your name">
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="setUsername">Username</label>
+                  <input id="setUsername" type="text" disabled>
+                </div>
+                <div class="field">
+                  <label for="setEmail">Email</label>
+                  <input id="setEmail" type="email" disabled>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="setExamYear">Exam year</label>
+                  <input id="setExamYear" type="number" min="2024" max="2045" step="1">
+                </div>
+                <div class="field">
+                  <label for="setExamDate">Exam date</label>
+                  <input id="setExamDate" type="date">
+                </div>
+              </div>
+              <div><button class="btn primary" id="setSave">Save details</button></div>
+            </div>
+          </div>
+
+          <div class="set-block">
+            <h3>Subjects</h3>
+            <div class="sb-s">Each subject gets its own colour across the timetable and charts.</div>
+            <div class="sub-editor" id="subEditor"></div>
+            <div style="display:flex;gap:9px">
+              <input id="subNew" type="text" placeholder="Add a subject, e.g. Economics" style="flex:1">
+              <button class="btn soft" id="subAdd">Add</button>
+            </div>
+            <div id="subSiteBox" hidden>
+              <div class="sb-s" id="subSiteNote" style="margin-top:14px"></div>
+              <button class="btn ghost" id="subUseSite" type="button">Use the site's subjects</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="set-block">
+            <h3>Where your data lives</h3>
+            <div class="sb-s" id="syncAbout">
+              This account is kept in this browser. Download a backup before you
+              clear site data or switch to another device.
+            </div>
+            <div id="syncBox"></div>
+            <div id="secSessions"></div>
+          </div>
+
+          <div class="set-block">
+            <h3>Recent sign-in activity</h3>
+            <div class="sb-s">Every attempt on your account, newest first.</div>
+            <div id="secEvents"></div>
+          </div>
+
+          <div class="set-block">
+            <h3>Change password</h3>
+            <div class="sb-s">Changing your password signs you out everywhere.</div>
+            <div class="stack">
+              <div class="field">
+                <label for="pwCurrent">Current password</label>
+                <div class="pwd">
+                  <input id="pwCurrent" type="password" autocomplete="current-password">
+                  <button type="button" class="pwd-toggle" aria-label="Show password" tabindex="-1" aria-hidden="true">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a18 18 0 0 1-2.2 2.9M6.6 6.6A18 18 0 0 0 1 12s4 7 11 7a10.9 10.9 0 0 0 4.3-.9"/><path d="M2 2l20 20"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="pwNew">New password</label>
+                  <div class="pwd">
+                    <input id="pwNew" type="password" autocomplete="new-password">
+                    <button type="button" class="pwd-toggle" aria-label="Show password" tabindex="-1" aria-hidden="true">
+                      <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                      <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a18 18 0 0 1-2.2 2.9M6.6 6.6A18 18 0 0 0 1 12s4 7 11 7a10.9 10.9 0 0 0 4.3-.9"/><path d="M2 2l20 20"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="pwNew2">Confirm new password</label>
+                  <div class="pwd">
+                    <input id="pwNew2" type="password" autocomplete="new-password">
+                    <button type="button" class="pwd-toggle" aria-label="Show password" tabindex="-1" aria-hidden="true">
+                      <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                      <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a18 18 0 0 1-2.2 2.9M6.6 6.6A18 18 0 0 0 1 12s4 7 11 7a10.9 10.9 0 0 0 4.3-.9"/><path d="M2 2l20 20"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="notice" id="pwNotice"></div>
+              <div><button class="btn primary" id="pwSave">Update password</button></div>
+            </div>
+          </div>
+
+          <div class="set-block" id="secAdmin" hidden>
+            <h3>Owner</h3>
+            <div class="sb-s">Settings for the site itself. Anything changed here applies to every account.</div>
+            <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+              <a class="btn soft" href="admin.html">Open site settings</a>
+              <span class="p-sub">You are signed in as the owner.</span>
+            </div>
+          </div>
+
+          <div class="set-block">
+            <h3>Your data</h3>
+            <div class="sb-s">Download a copy as JSON, erase everything, or sign out of this browser.</div>
+            <div style="display:flex;gap:9px;flex-wrap:wrap">
+              <button class="btn soft" id="btnExport">Download my data</button>
+              <button class="btn danger" id="btnErase">Erase everything</button>
+              <button class="btn ghost" id="btnSignOut">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /page -->
+</div><!-- /app -->
+
+<!-- ================================================== maintenance notice -->
+<!-- Written by the owner from the site editor. The whole planner above is put
+     away while it is on, so nobody is left clicking a dead grid. The owner is
+     the one account that is never locked out. -->
+<main class="wb-maint" data-wb="maintenance" hidden>
+  <div class="wb-maint-card">
+    <div class="wb-maint-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8.5 15h-17L12 3z"/><path d="M12 10v4M12 17.2v.1"/>
+      </svg>
+    </div>
+
+    <b class="wb-maint-title" data-wb="maintTitle">We are working on the site</b>
+    <p class="wb-maint-msg" data-wb="maintMessage">Please come back shortly.</p>
+    <p class="wb-maint-until" data-wb="maintUntilLine" hidden>
+      Back by <span data-wb="maintUntil"></span>
+    </p>
+
+    <p class="wb-maint-note">
+      Your subjects, your week and your marks are all safe. They will be waiting
+      for you as soon as we are back.
+    </p>
+
+    <a class="btn ghost sm" href="index.html">Back to the sign-in page</a>
+  </div>
+</main>
+
+<!-- ======================================================= task modal -->
+<div class="overlay" id="taskOverlay">
+  <div class="modal">
+    <h3 id="taskTitle">Add a session</h3>
+    <p class="m-hint" id="taskHint">Only the subject and time are needed.</p>
+    <div class="notice" id="taskNotice"></div>
+    <div class="m-body" style="margin-top:14px">
+      <div class="row2">
+        <div class="field">
+          <label for="tDay">Day</label>
+          <select id="tDay"></select>
+        </div>
+        <div class="field">
+          <label for="tType">Type</label>
+          <select id="tType">
+            <option value="study">Study session</option>
+            <option value="class">Class / lesson</option>
+            <option value="other">Something else</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="tOtherWrap" style="display:none">
+        <label for="tOther">What is it?</label>
+        <input id="tOther" type="text" placeholder="e.g. Gym, part-time job, club">
+      </div>
+      <div class="field">
+        <label for="tSubject">Subject</label>
+        <select id="tSubject"></select>
+      </div>
+      <div class="field">
+        <label for="tTask">Topic or note <span style="font-weight:500;color:var(--muted)">(optional)</span></label>
+        <input id="tTask" type="text" placeholder="e.g. Chapter 5 double entry, past paper 2019">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="tStart">Starts</label>
+          <input id="tStart" type="time" step="900" value="17:00">
+        </div>
+        <div class="field">
+          <label for="tEnd">Ends</label>
+          <input id="tEnd" type="time" step="900" value="18:30">
+        </div>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn ghost" id="tCancel">Cancel</button>
+      <button class="btn primary" id="tSave">Save session</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================== copy modal -->
+<div class="overlay" id="copyOverlay">
+  <div class="modal wide">
+    <h3>Copy this week</h3>
+    <p class="m-hint" id="copyHint">Pick the week to copy your sessions into. The plan comes over as fresh tasks, without their done ticks.</p>
+    <div class="notice" id="copyNotice"></div>
+    <div class="m-body" style="margin-top:15px">
+      <div class="field">
+        <label>From</label>
+        <div style="font-size:14px;font-weight:800;color:var(--navy-800)" id="copyFrom">—</div>
+      </div>
+      <div class="field">
+        <label>To</label>
+        <div class="week-pick" id="copyTargets"></div>
+      </div>
+      <div class="field">
+        <label>How</label>
+        <div class="radio-row">
+          <div class="radio-card sel" data-mode="copy">
+            <b>Copy</b>
+            <span>Keep this week as it is and duplicate it.</span>
+          </div>
+          <div class="radio-card" data-mode="move">
+            <b>Move</b>
+            <span>Shift the sessions and leave this week empty.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn ghost" id="copyCancel">Cancel</button>
+      <button class="btn primary" id="copyGo">Copy week</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" aria-live="polite"></div>
+
+<script src="js/sync-config.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/appconfig.js"></script>
+<script src="js/store.js"></script>
+<script src="js/common.js"></script>
+<script src="js/planner.js"></script>
+</body>
+</html>

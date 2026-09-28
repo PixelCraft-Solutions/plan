@@ -1,0 +1,408 @@
+/* ==========================================================================
+   WorkBuddy - shared theme (dark blue + light blue, university campus)
+   ========================================================================== */
+
+:root{
+  /* dark blue family */
+  --navy-900:#06182f;
+  --navy-800:#0b2545;
+  --navy-700:#13315c;
+  --navy-600:#1b4172;
+  --navy-500:#245089;
+
+  /* light blue family */
+  --blue-400:#60a5fa;
+  --blue-300:#93c5fd;
+  --blue-200:#bfdbfe;
+  --blue-100:#dbeafe;
+  --blue-50:#eff6ff;
+  --sky:#38bdf8;
+  --sky-soft:#7dd3fc;
+
+  --ink:#0b1f38;
+  --ink-soft:#33517a;
+  /* helper text still has to be readable, so this is a shade deeper than the
+     old one: 5.2:1 on white, and it holds up on the pale tints too */
+  --muted:#556f8c;
+  --line:#d3e2f4;
+  --line-soft:#e5eefb;
+
+  --card:#ffffff;
+  --card-2:#f7fbff;
+
+  --ok:#0f9d76;
+  --ok-bg:#e2f7f0;
+  --warn:#b45309;
+  --warn-bg:#fdf3e3;
+  --danger:#d92d43;
+  --danger-bg:#fdeaec;
+
+  --radius:16px;
+  --radius-sm:11px;
+  --radius-xs:8px;
+  --shadow:0 14px 40px rgba(11,37,69,.10);
+  --shadow-lg:0 26px 70px rgba(6,24,47,.28);
+  --ring:0 0 0 3px rgba(56,189,248,.28);
+
+  /* spacing scale - use these instead of ad-hoc pixel values */
+  --s1:4px;  --s2:8px;  --s3:12px; --s4:16px;
+  --s5:20px; --s6:24px; --s7:32px; --s8:44px;
+
+  /* type scale */
+  --fs-xs:11.5px; --fs-sm:12.5px; --fs-base:14.5px;
+  --fs-md:15.5px; --fs-lg:18px;   --fs-xl:23px;
+
+  /* artwork: one for the page backdrop, one for the brand panel */
+  --art:url('../assets/bg.svg');
+  --panel-art:url('../assets/panel.svg');
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* A class that sets display would otherwise win over the hidden attribute, and
+   a row or a button meant to be out of sight would sit there on the page. */
+[hidden]{display:none !important}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--navy-800);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+
+/* the backdrop: soft light, a fine grid and one calm horizon */
+.campus-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background-color:var(--navy-900);
+  background-image:var(--art);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.campus-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(1200px 680px at 10% 4%, rgba(6,24,47,.62), transparent 72%),
+    linear-gradient(180deg, rgba(6,24,47,.50) 0%, rgba(6,24,47,.24) 42%, rgba(6,24,47,.66) 100%);
+}
+
+h1,h2,h3,h4{line-height:1.2;letter-spacing:-.01em}
+
+a{color:var(--navy-600)}
+
+/* ------------------------------------------------------------- controls -- */
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field > label{font-size:var(--fs-sm);font-weight:700;color:var(--ink-soft);letter-spacing:.01em}
+.field .hint{font-size:var(--fs-xs);color:var(--muted);line-height:1.45}
+
+input[type=text],input[type=email],input[type=password],input[type=number],
+input[type=date],input[type=tel],select,textarea{
+  width:100%;
+  font:inherit;
+  font-size:14.5px;
+  color:var(--ink);
+  background:#fff;
+  border:1.5px solid var(--line);
+  border-radius:var(--radius-sm);
+  padding:11px 13px;
+  outline:none;
+  transition:border-color .15s, box-shadow .15s, background .15s;
+  min-width:0;
+}
+input::placeholder,textarea::placeholder{color:#9fb4cc}
+
+input:hover:not(:disabled),select:hover:not(:disabled),textarea:hover:not(:disabled){border-color:var(--blue-300)}
+input:focus,select:focus,textarea:focus{border-color:var(--sky);box-shadow:var(--ring)}
+input:disabled,select:disabled,textarea:disabled{background:#eef4fb;color:#8ba3bd;cursor:not-allowed}
+
+select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2333517a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  padding-right:34px;
+}
+textarea{resize:vertical;min-height:76px;line-height:1.5}
+
+/* Show / hide password. A `.pwd` block wraps a password input alongside the
+   eye button that swaps it to plain text, so the box is never covered and the
+   field below it lines up as usual. */
+.pwd{position:relative}
+.pwd > input{padding-right:46px}
+.pwd-toggle{
+  position:absolute;
+  top:50%;
+  right:7px;
+  transform:translateY(-50%);
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  background:none;
+  border:none;
+  border-radius:8px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:color .15s, background .15s;
+}
+.pwd-toggle:hover{color:var(--ink);background:rgba(51,81,122,.08)}
+.pwd-toggle:focus-visible{outline:2px solid var(--sky);outline-offset:1px}
+.pwd-toggle svg{width:19px;height:19px}
+.pwd-toggle.on{color:var(--sky)}
+
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.invalid input,.invalid select,.invalid textarea{border-color:var(--danger);background:#fff8f9}
+.invalid input:focus,.invalid select:focus,.invalid textarea:focus{box-shadow:0 0 0 3px rgba(217,45,67,.18)}
+
+.err{
+  display:none;
+  font-size:12.2px;
+  font-weight:600;
+  color:var(--danger);
+  align-items:center;
+  gap:5px;
+  line-height:1.4;
+}
+.err.show{display:flex}
+.err::before{content:"";width:13px;height:13px;flex:none;
+  background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' d='M12 8v5M12 17h.01'/%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' d='M12 8v5M12 17h.01'/%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.field-hint{display:block;font-size:12.2px;font-weight:600;color:var(--muted);line-height:1.45;margin-top:2px}
+.field-hint[hidden]{display:none}
+
+/* password strength / match meter */
+.pw-meter{height:5px;border-radius:99px;background:#e3ecf7;overflow:hidden;margin-top:2px}
+.pw-meter > i{display:block;height:100%;width:0;border-radius:99px;transition:width .25s, background .25s}
+.pw-msg{font-size:12px;font-weight:600;margin-top:5px;min-height:16px;color:var(--muted)}
+.pw-msg.good{color:var(--ok)}
+.pw-msg.bad{color:var(--danger)}
+
+/* buttons */
+.btn{
+  font:inherit;
+  font-size:14.5px;
+  font-weight:700;
+  border:none;
+  border-radius:var(--radius-sm);
+  padding:12px 18px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:transform .12s, box-shadow .18s, background .18s, color .18s, border-color .18s;
+  white-space:nowrap;
+  text-decoration:none;
+  line-height:1.2;
+}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn:focus-visible{outline:none;box-shadow:var(--ring)}
+
+.btn.primary{
+  background:linear-gradient(135deg,var(--navy-600),var(--navy-800));
+  color:#fff;
+  box-shadow:0 8px 20px rgba(11,37,69,.24);
+}
+.btn.primary:hover:not(:disabled){background:linear-gradient(135deg,var(--navy-500),var(--navy-700));box-shadow:0 12px 26px rgba(11,37,69,.30)}
+
+.btn.ghost{
+  background:#fff;
+  color:var(--navy-700);
+  border:1.5px solid var(--line);
+}
+.btn.ghost:hover:not(:disabled){border-color:var(--blue-300);background:var(--blue-50)}
+
+.btn.soft{background:var(--blue-100);color:var(--navy-700)}
+.btn.soft:hover:not(:disabled){background:var(--blue-200)}
+
+.btn.danger{background:var(--danger-bg);color:var(--danger);border:1.5px solid #f6ccd2}
+.btn.danger:hover:not(:disabled){background:#fbdde1}
+
+.btn.block{width:100%}
+.btn.sm{padding:8px 13px;font-size:13px;border-radius:var(--radius-xs)}
+.btn.xs{padding:5px 10px;font-size:12px;border-radius:var(--radius-xs)}
+
+/* cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:700;
+  padding:5px 11px;
+  border-radius:99px;
+  background:var(--blue-100);
+  color:var(--navy-700);
+  white-space:nowrap;
+}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.danger{background:var(--danger-bg);color:var(--danger)}
+.pill.mute{background:#eef3f9;color:var(--muted)}
+
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+
+/* notices */
+.notice{
+  display:none;
+  gap:11px;
+  padding:13px 15px;
+  border-radius:var(--radius-sm);
+  font-size:13.5px;
+  font-weight:600;
+  line-height:1.5;
+  border:1.5px solid transparent;
+}
+.notice.show{display:flex}
+.notice .ni{flex:none;width:18px;height:18px;margin-top:1px;
+  background:currentColor;
+  -webkit-mask:var(--ni) center/contain no-repeat;
+  mask:var(--ni) center/contain no-repeat;
+}
+.notice.error{background:var(--danger-bg);border-color:#f6ccd2;color:#a51f31;--ni:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v6M12 16.5h.01'/%3E%3C/svg%3E")}
+.notice.ok{background:var(--ok-bg);border-color:#b9e8d8;color:#0a6b51;--ni:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E")}
+.notice.info{background:var(--blue-50);border-color:var(--blue-200);color:var(--navy-700);--ni:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 11v5M12 8h.01'/%3E%3C/svg%3E")}
+.notice.warn{background:var(--warn-bg);border-color:#f2ddb8;color:#8a4008;--ni:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.3' stroke-linecap='round'%3E%3Cpath d='M12 4l9 16H3z'/%3E%3Cpath d='M12 10v4M12 17.5h.01'/%3E%3C/svg%3E")}
+
+/* spinner */
+.spin{width:16px;height:16px;flex:none;border-radius:50%;
+  border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;animation:sp .7s linear infinite}
+.spin.dark{border-color:rgba(11,37,69,.25);border-top-color:var(--navy-700)}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ------------------------------------------------------------- layout --- */
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.row2{grid-template-columns:1fr}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ------------------------------------------------------------ banner --- */
+/* The announcement the owner writes, shown above the app bar on every page.
+   `hidden` is what keeps it away the rest of the time, so nothing here has to
+   guess whether it is meant to be on screen. */
+
+.wb-banner{
+  position:relative;z-index:2;
+  background:linear-gradient(135deg,var(--warn-bg),#fff7e8);
+  border-bottom:1.5px solid #f2ddb8;
+}
+.wb-banner[hidden]{display:none}
+
+.wb-banner-in{
+  max-width:1280px;margin:0 auto;
+  padding:10px 22px;
+  display:flex;align-items:center;gap:9px;
+  font-size:13px;font-weight:700;color:#8a4008;line-height:1.45;
+}
+.wb-banner-in b{font-weight:800}
+
+.wb-banner-dot{
+  flex:none;width:8px;height:8px;border-radius:50%;
+  background:var(--warn);
+  box-shadow:0 0 0 3px rgba(180,83,9,.16);
+}
+
+@media (max-width:560px){
+  .wb-banner-in{padding:9px 16px;font-size:12.4px}
+}
+
+/* ------------------------------------------------------- maintenance --- */
+/* The owner's "we are working on the site" notice. It takes the whole page
+   rather than sitting in a corner, because a person who cannot study tonight
+   deserves to be told why in one glance. The page it replaces is hidden by
+   `data-wb-lock` on the other block, and the owner is never shown this at
+   all, so the switch can always be turned back off. */
+
+.wb-maint{
+  position:relative;z-index:3;
+  min-height:100vh;min-height:100dvh;
+  display:grid;place-items:center;
+  padding:30px 22px;
+}
+.wb-maint[hidden]{display:none}
+
+.wb-maint-card{
+  width:100%;max-width:470px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg,18px);
+  box-shadow:0 18px 50px rgba(11,37,69,.14);
+  padding:34px 30px 28px;
+  text-align:center;
+}
+
+.wb-maint-icon{
+  width:52px;height:52px;
+  margin:0 auto 16px;
+  border-radius:15px;
+  display:grid;place-items:center;
+  background:var(--warn-bg);
+  color:#8a4008;
+}
+.wb-maint-icon svg{width:25px;height:25px}
+
+.wb-maint-title{
+  display:block;
+  font-size:21px;font-weight:800;
+  color:var(--navy-800);
+  letter-spacing:-.02em;line-height:1.3;
+}
+
+.wb-maint-msg{
+  font-size:14px;color:var(--muted);
+  line-height:1.65;margin:10px 0 0;
+  white-space:pre-line;
+}
+
+.wb-maint-until{
+  font-size:12.6px;font-weight:800;
+  color:#8a4008;background:var(--warn-bg);
+  border:1px solid #f2ddb8;
+  border-radius:999px;
+  padding:6px 14px;
+  display:inline-block;margin:14px 0 0;
+}
+.wb-maint-until[hidden]{display:none}
+
+.wb-maint-note{
+  font-size:12.6px;color:var(--muted);
+  line-height:1.6;margin:18px 0 20px;
+  padding-top:16px;
+  border-top:1px solid var(--line-soft);
+}
+
+.wb-maint-note + .btn{margin:0}
+
+@media (max-width:560px){
+  .wb-maint{padding:20px 16px}
+  .wb-maint-card{padding:26px 20px 22px}
+  .wb-maint-title{font-size:18.5px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}

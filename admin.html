@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy · Site settings</title>
+<meta name="description" content="Owner settings for the WorkBuddy site.">
+<link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="campus-bg" aria-hidden="true"></div>
+
+<div class="app">
+
+  <!-- ======================================================= announcement -->
+  <div class="wb-banner" data-wb="banner" hidden>
+    <div class="wb-banner-in">
+      <span class="wb-banner-dot" aria-hidden="true"></span>
+      <b></b>
+    </div>
+  </div>
+
+  <!-- ========================================================= app bar -->
+  <header class="appbar">
+    <div class="appbar-in">
+      <div class="brand">
+        <div class="brand-mark"><img src="assets/logo.png" alt=""></div>
+        <div class="brand-text">
+          <b>WorkBuddy</b>
+          <span>Site settings</span>
+        </div>
+      </div>
+
+      <div class="appbar-spacer"></div>
+
+      <span class="adm-live" id="admLive" data-live="off" title="Whether changes reach other people straight away">
+        <span class="al-dot"></span>
+        <span class="al-text">Checking</span>
+      </span>
+
+      <a class="appbar-btn" id="backToApp" href="app.html" title="Open the planner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>Open planner</span>
+      </a>
+
+      <button class="icon-btn" id="signOutTop" title="Sign out" aria-label="Sign out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 17l5-5-5-5M20 12H9M12 3H6a2 2 0 00-2 2v14a2 2 0 002 2h6"/>
+        </svg>
+      </button>
+
+      <span class="who-btn" style="cursor:default">
+        <span class="avatar" id="avatar">–</span>
+        <span class="who-txt">
+          <b id="whoName">Owner</b>
+          <span id="whoExam">admin</span>
+        </span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ============================================================ body -->
+  <div class="page">
+    <div class="adm-wrap">
+
+      <!-- locked state, shown until the owner is recognised -->
+      <div class="adm-locked" id="locked" hidden>
+        <div class="adm-lock-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10.5" width="16" height="10.5" rx="2.2"/><path d="M8 10.5V7a4 4 0 018 0v3.5"/>
+          </svg>
+        </div>
+        <h2 id="lockedTitle">Sign in as the owner</h2>
+        <p id="lockedText">These settings change the site for everybody. Sign in with the owner account to open this page.</p>
+        <a class="btn primary" href="index.html" id="lockedLink">Go to sign in</a>
+      </div>
+
+      <!-- the panel itself -->
+      <div id="panel" hidden>
+
+        <div class="adm-eyebrow">Owner only</div>
+        <h1 class="adm-title">Site settings</h1>
+        <p class="adm-lede">
+          Change anything on this page and publish. It reaches every account on
+          every device within a second, without anybody reloading. Nobody's
+          subjects, weeks or marks are touched by anything here.
+        </p>
+
+        <div class="stack-v">
+
+          <div class="grid-2">
+
+            <!-- ------------------------------------------- how it looks -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>How the site looks</h2>
+                  <div class="p-sub">The name beside the logo, the line under it, and the sentence on the sign-in page.</div>
+                </div>
+              </div>
+
+              <div class="stack">
+                <div class="row2">
+                  <div class="field">
+                    <label for="adSiteName">Site name</label>
+                    <input id="adSiteName" type="text" maxlength="40" placeholder="WorkBuddy">
+                  </div>
+                  <div class="field">
+                    <label for="adTagline">Tagline</label>
+                    <input id="adTagline" type="text" maxlength="40" placeholder="Study Planner">
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="adDescription">Description</label>
+                  <textarea id="adDescription" rows="3" maxlength="300"
+                            placeholder="One or two sentences about the site."></textarea>
+                  <span class="field-hint">Shown under the logo on the sign-in page, and used as the page description when the site is shared or searched.</span>
+                </div>
+
+                <div class="adm-preview">
+                  <div class="adm-preview-h">How it will read</div>
+                  <div class="adm-preview-b">
+                    <span id="pvName">WorkBuddy</span>
+                    <small id="pvTagline">Study Planner</small>
+                  </div>
+                  <div class="adm-banner-prev off" id="pvBanner">No announcement is showing.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ---------------------------------------- announcement -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>Announcement banner</h2>
+                  <div class="p-sub">One line shown at the top of every page, above the app bar.</div>
+                </div>
+              </div>
+
+              <div class="sw-row" style="border-bottom:none;padding-top:0">
+                <div class="sw-text">
+                  <b>Show the banner</b>
+                  <span>Turn this off to hide it everywhere without losing the wording.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adBannerOn" aria-label="Show the announcement banner">
+                  <i></i>
+                </label>
+              </div>
+
+              <div class="field" style="margin-top:10px">
+                <label for="adBannerText">Banner text</label>
+                <input id="adBannerText" type="text" maxlength="200" placeholder="e.g. Term 1 results are out on Friday">
+                <span class="field-hint">Up to 200 characters. It shows on the sign-in page as well, so it reaches people who have not registered yet.</span>
+              </div>
+            </div>
+
+            <!-- --------------------------------------- maintenance notice -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>Maintenance notice</h2>
+                  <div class="p-sub">A full page notice that takes the site away from everyone, for as long as you leave it on.</div>
+                </div>
+              </div>
+
+              <div class="sw-row" style="border-bottom:none;padding-top:0">
+                <div class="sw-text">
+                  <b>Take the site down</b>
+                  <span>Everyone except you is met by the notice below instead of the app or the sign-in page.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adMaintOn" aria-label="Take the site down for maintenance">
+                  <i></i>
+                </label>
+              </div>
+
+              <div class="stack" style="margin-top:12px">
+                <div class="field">
+                  <label for="adMaintTitle">Heading</label>
+                  <input id="adMaintTitle" type="text" maxlength="80" placeholder="We are working on the site">
+                  <span class="field-hint">The big line on the notice. Leave it empty and a sensible default is used.</span>
+                </div>
+
+                <div class="field">
+                  <label for="adMaintMessage">What to say</label>
+                  <textarea id="adMaintMessage" rows="3" maxlength="400"
+                            placeholder="We are updating the planner. Everything you have saved is safe."></textarea>
+                </div>
+
+                <div class="field">
+                  <label for="adMaintUntil">Back by (optional)</label>
+                  <input id="adMaintUntil" type="text" maxlength="60" placeholder="e.g. Sunday 6pm, or 9 October">
+                  <span class="field-hint">Free text, so it can read the way you want. It is shown as one small line under the message.</span>
+                </div>
+
+                <div class="adm-preview">
+                  <div class="adm-preview-h">How visitors will see it</div>
+                  <div class="adm-maint-prev" id="pvMaint">
+                    <b id="pvMaintTitle">We are working on the site</b>
+                    <p id="pvMaintMsg">Turn this on and everyone except you sees this page instead of the site.</p>
+                    <small id="pvMaintUntil" hidden></small>
+                  </div>
+                  <div class="adm-banner-prev off" id="pvMaintState">The site is open to everyone.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ------------------------------------------- default subjects -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>Subjects for new accounts</h2>
+                  <div class="p-sub">The list every new account starts with. Existing accounts keep the subjects they have.</div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="adSubjects">Subjects, one per line</label>
+                <textarea id="adSubjects" rows="5" spellcheck="false"
+                          placeholder="Accounting&#10;Business Studies&#10;Economics&#10;ICT&#10;English"></textarea>
+                <span class="field-hint">
+                  The site was built with a commerce stream in mind, so the
+                  built-in list is Accounting, BS, ICT and English. Replace it
+                  here with the subjects your students actually take, and every
+                  account made from now on starts with this list instead.
+                </span>
+              </div>
+
+              <div class="adm-preview">
+                <div class="adm-preview-h">How a new account will start</div>
+                <div class="sub-editor" id="pvSubjects"></div>
+                <div class="adm-banner-prev off" id="pvSubjectsEmpty">Nothing here yet, so new accounts fall back to the built-in list.</div>
+              </div>
+            </div>
+
+            <!-- ------------------------------------------- what people can use -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>What people can use</h2>
+                  <div class="p-sub">Turn a part of the planner off for everyone. Their data is kept, so turning it back on brings it all back.</div>
+                </div>
+              </div>
+
+              <div class="sw-row" style="padding-top:0">
+                <div class="sw-text">
+                  <b>Timetable</b>
+                  <span>The weekly grid where sessions are planned.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adFeatTimetable" data-feature="timetable">
+                  <i></i>
+                </label>
+              </div>
+
+              <div class="sw-row">
+                <div class="sw-text">
+                  <b>Marks</b>
+                  <span>Test and exam marks, and the progress graphs.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adFeatMarks" data-feature="marks">
+                  <i></i>
+                </label>
+              </div>
+
+              <div class="sw-row">
+                <div class="sw-text">
+                  <b>Copy Week</b>
+                  <span>The button that copies one week of the plan onto another.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adFeatCopyWeek" data-feature="copyWeek">
+                  <i></i>
+                </label>
+              </div>
+
+              <div class="sw-row">
+                <div class="sw-text">
+                  <b>New registrations</b>
+                  <span>Turn this off to close sign-ups. People who already have an account can still sign in as usual.</span>
+                </div>
+                <label class="sw">
+                  <input type="checkbox" id="adFeatRegistration" data-feature="registration">
+                  <i></i>
+                </label>
+              </div>
+            </div>
+
+            <!-- ------------------------------------------- new accounts -->
+            <div class="panel">
+              <div class="p-head">
+                <div>
+                  <h2>New accounts</h2>
+                  <div class="p-sub">What the registration form starts on for someone who has not signed up yet.</div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="adYear">Default exam year</label>
+                <input id="adYear" type="number" min="2024" max="2045" step="1">
+                <span class="field-hint">Pre-filled on the registration form. Anyone can still change it before they finish signing up.</span>
+              </div>
+
+              <div class="adm-meta" id="admMeta" style="margin-top:14px"></div>
+
+              <div class="adm-setup">
+                <div class="adm-setup-h">Owner setup</div>
+                <div id="admSetup">Signed in. This device can find your Firebase id for you.</div>
+              </div>
+            </div>
+
+          </div><!-- /grid-2 -->
+
+          <!-- ------------------------------------------- people who use it -->
+          <div class="panel" style="margin-top:18px">
+            <div class="p-head">
+              <div>
+                <h2>People who registered</h2>
+                <div class="p-sub" id="usersSub">Accounts that registered on the site, newest first.</div>
+              </div>
+              <div class="adm-users-tools">
+                <input id="adUserSearch" type="search" placeholder="Search name, username or email" aria-label="Search registered users">
+                <button class="btn soft sm" id="adUsersRefresh" type="button">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-2.6-6.4M21 4v5h-5"/></svg>
+                  Refresh
+                </button>
+              </div>
+            </div>
+            <div class="adm-users" id="adUsersList">
+              <div class="adm-users-empty">Loading the shared list&hellip;</div>
+            </div>
+          </div>
+
+        </div><!-- /stack-v -->
+      </div><!-- /panel -->
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================== save bar -->
+<div class="adm-savebar" id="saveBar" hidden>
+  <div class="adm-savebar-in">
+    <div class="notice" id="saveNotice"></div>
+    <button class="btn ghost" id="btnReset" type="button">Discard changes</button>
+    <button class="btn primary" id="btnSave" type="button">Publish to the site</button>
+  </div>
+</div>
+
+<script src="js/sync-config.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/appconfig.js"></script>
+<script src="js/store.js"></script>
+<script src="js/common.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

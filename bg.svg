@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#0b2545"/>
+      <stop offset="0.55" stop-color="#081d38"/>
+      <stop offset="1" stop-color="#061630"/>
+    </linearGradient>
+
+    <radialGradient id="glowSky" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.50"/>
+      <stop offset="0.55" stop-color="#0ea5e9" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#0ea5e9" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowIndigo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#6366f1" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="streak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bfdbfe" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#bfdbfe" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#bfdbfe" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="fadeDown" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.85"/>
+      <stop offset="0.55" stop-color="#fff" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <pattern id="grid" width="46" height="46" patternUnits="userSpaceOnUse">
+      <path d="M46 0H0V46" fill="none" stroke="#bfdbfe" stroke-opacity="0.16" stroke-width="1"/>
+    </pattern>
+
+    <pattern id="dots" width="23" height="23" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.4" fill="#93c5fd" fill-opacity="0.30"/>
+    </pattern>
+
+    <mask id="gridMask">
+      <rect width="1600" height="1000" fill="url(#fadeDown)"/>
+    </mask>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#base)"/>
+
+  <!-- planning horizon: three calm arcs anchored off the right edge -->
+  <g fill="none" stroke="#7dd3fc" stroke-opacity="0.13" stroke-width="1.4">
+    <circle cx="1395" cy="270" r="205"/>
+    <circle cx="1395" cy="270" r="330"/>
+    <circle cx="1395" cy="270" r="470"/>
+  </g>
+
+  <!-- light -->
+  <ellipse cx="330" cy="120" rx="720" ry="520" fill="url(#glowSky)"/>
+  <ellipse cx="1290" cy="880" rx="760" ry="540" fill="url(#glowIndigo)"/>
+  <rect width="1600" height="1000" fill="url(#dots)" mask="url(#gridMask)"/>
+  <rect x="-200" y="120" width="2000" height="300" fill="url(#streak)" transform="rotate(-8 800 270)"/>
+
+  <rect width="1600" height="1000" fill="url(#grid)" mask="url(#gridMask)" opacity="0.55"/>
+
+  <!-- a single week of seven days, abstracted -->
+  <g fill="none" stroke="#e0f2fe" stroke-opacity="0.16" stroke-width="1.6" stroke-linecap="round">
+    <path d="M120 812h180M340 812h180M560 812h180M780 812h180M1000 812h180M1220 812h180"/>
+  </g>
+  <g fill="#7dd3fc" fill-opacity="0.5">
+    <circle cx="330" cy="812" r="4.5"/>
+    <circle cx="770" cy="812" r="4.5"/>
+    <circle cx="1210" cy="812" r="4.5"/>
+  </g>
+</svg>

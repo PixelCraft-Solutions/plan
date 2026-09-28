@@ -1,0 +1,64 @@
+# ==========================================================================
+#   WorkBuddy - publish the site to GitHub Pages
+# --------------------------------------------------------------------------
+#   There is no build step. The files in the repository are the site, so this
+#   only has to pick the ones that make up the site and hand them to Pages.
+#
+#   The list of paths below is deliberate rather than "." : a file that is
+#   added to the repository later (a backup, an .env, the old test-account
+#   page) is not published until somebody deliberately adds it here. Only
+#   these five paths are the live site.
+#
+#   Turning it on, once, in the repository on GitHub:
+#     Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
+#
+#   After that, every push to main republishes. The site is then at
+#   https://<owner>.github.io/<repo>/ unless a custom domain is set.
+# ==========================================================================
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  # lets the site be republished from the Actions tab without a commit
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one publish at a time; a newer push cancels the one still running
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Set up Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # these, and only these, are the published site
+          path: |
+            index.html
+            app.html
+            admin.html
+            assets
+            css
+            js
+
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v4

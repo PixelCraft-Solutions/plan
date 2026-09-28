@@ -1,0 +1,24 @@
+# WorkBuddy is a static site: index.html, app.html, admin.html, assets/, css/
+# and js/ are the whole thing, and they are committed as they are.
+
+# The test-account page used to sit in the repo root with a hardcoded password
+# and the ability to create a real cloud account. It must never be published.
+_seed-user4.html
+_seed-*.html
+
+# kept out of the way while it is still here
+_old/node_modules/
+_old/data/
+_old/*.db
+_old/*.db-wal
+_old/*.db-shm
+
+# local overrides, if any hosting step ever needs one
+.env
+.env.*
+
+.DS_Store
+Thumbs.db
+
+# local smoke-test logs from the browser checks
+smoke-*.log

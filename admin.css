@@ -1,0 +1,489 @@
+/* ==========================================================================
+   WorkBuddy - admin panel
+   --------------------------------------------------------------------------
+   The panel is the ordinary planner styling with a few parts of its own: a
+   row that carries a switch, the sticky bar that holds the save button, and
+   the small note that says who is signed in.
+   ========================================================================== */
+
+.adm-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 4px 0 120px;
+}
+
+/* The app bar is shared with the planner, and two of its pieces are not
+   buttons here, so they are told how to sit in the row. */
+a.appbar-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+span.who-btn {
+  cursor: default;
+}
+
+span.who-btn:hover {
+  background: rgba(255, 255, 255, .08);
+}
+
+.adm-eyebrow {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.adm-title {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--navy-800);
+  letter-spacing: -.02em;
+  margin: 0 0 4px;
+}
+
+.adm-lede {
+  font-size: 13.6px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 22px;
+  max-width: 68ch;
+}
+
+/* ------------------------------------------------------------- switches -- */
+
+.sw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.sw-row:last-child { border-bottom: none; }
+
+.sw-text { min-width: 0; }
+
+.sw-text b {
+  display: block;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--navy-800);
+  line-height: 1.35;
+}
+
+.sw-text span {
+  display: block;
+  font-size: 12.6px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.sw {
+  flex: none;
+  position: relative;
+  width: 46px;
+  height: 26px;
+}
+
+.sw input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.sw i {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #cbd5e1;
+  transition: background .18s ease;
+  pointer-events: none;
+}
+
+.sw i::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .3);
+  transition: transform .18s ease;
+}
+
+.sw input:checked + i { background: var(--ok); }
+.sw input:checked + i::after { transform: translateX(20px); }
+.sw input:focus-visible + i { box-shadow: var(--ring); }
+.sw input:disabled + i { opacity: .5; }
+
+/* ------------------------------------------------------------- save bar -- */
+
+.adm-savebar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-soft);
+  box-shadow: 0 -6px 24px rgba(11, 37, 69, .08);
+}
+
+.adm-savebar-in {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 13px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.adm-savebar .notice { flex: 1 1 260px; min-width: 0; }
+.adm-savebar .btn { flex: none; }
+
+/* ----------------------------------------------------------- lock state -- */
+
+.adm-locked {
+  max-width: 520px;
+  margin: 70px auto;
+  text-align: center;
+}
+
+.adm-locked h2 {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--navy-800);
+  margin: 14px 0 6px;
+}
+
+.adm-locked p {
+  font-size: 13.6px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.adm-lock-icon {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--blue-100);
+  color: var(--navy-700);
+}
+
+.adm-lock-icon svg { width: 22px; height: 22px; }
+
+/* -------------------------------------------------------------- preview -- */
+
+.adm-preview {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--blue-50);
+  padding: 14px 16px;
+}
+
+.adm-preview-h {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.adm-preview-b {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy-800);
+}
+
+.adm-preview-b small {
+  display: block;
+  font-size: 12.4px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.adm-banner-prev {
+  margin-top: 10px;
+  font-size: 12.8px;
+  font-weight: 700;
+  color: #8a4008;
+  background: var(--warn-bg);
+  border: 1px solid #f2ddb8;
+  border-radius: var(--radius-xs);
+  padding: 8px 11px;
+  line-height: 1.45;
+}
+
+.adm-banner-prev.off { color: var(--muted); background: #f1f5f9; border-color: var(--line-soft); }
+
+/* The maintenance notice, shown small inside the panel so the owner can see
+   what everybody else will be met by before it goes up. */
+.adm-maint-prev {
+  background: #fff;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-xs);
+  padding: 13px 15px;
+  text-align: center;
+}
+
+.adm-maint-prev b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--navy-800);
+  letter-spacing: -.01em;
+}
+
+.adm-maint-prev p {
+  font-size: 12.8px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 6px 0 0;
+}
+
+.adm-maint-prev small {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a4008;
+  margin-top: 8px;
+}
+
+/* `display:block` above would otherwise win over the `hidden` attribute, and
+   an empty "Back by" line would be left hanging in the preview. */
+.adm-maint-prev small[hidden] { display: none; }
+
+.adm-maint-prev.off { opacity: .5; }
+
+/* ---------------------------------------------------------- live status -- */
+
+/* Sits in the app bar next to the publish button, and says whether this
+   browser really is on the live subscription. It is the difference between
+   "changes reach everyone now" and "changes reach everyone on their next
+   reload", which is worth being honest about. */
+.adm-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  font-size: 12.4px;
+  font-weight: 700;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.al-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94a3b8;
+  flex: none;
+}
+
+.adm-live[data-live="on"] { color: #bbf7d0; }
+.adm-live[data-live="on"] .al-dot {
+  background: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, .22);
+}
+
+@media (max-width: 700px) {
+  .adm-live .al-text { display: none; }
+  .adm-live { padding: 6px 9px; }
+}
+
+.adm-meta {
+  font-size: 12.4px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.adm-meta code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: var(--blue-100);
+  color: var(--navy-700);
+  padding: 1.5px 6px;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+/* -------------------------------------------------------- setup helper -- */
+
+.adm-setup {
+  margin-top: 14px;
+  border: 1px dashed #c6d3e2;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  padding: 12px 14px;
+  font-size: 12.6px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.adm-setup-h {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.adm-setup code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: var(--blue-100);
+  color: var(--navy-700);
+  padding: 1.5px 6px;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+/* ----------------------------------------------------- registered users -- */
+
+.adm-users-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adm-users-tools input {
+  width: 240px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 13px;
+  background: #fff;
+  color: var(--navy-800);
+  outline: none;
+}
+
+.adm-users-tools input:focus { border-color: var(--brand); box-shadow: var(--ring); }
+
+.adm-users {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 12px;
+}
+
+.adm-users-empty {
+  padding: 26px 8px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.adm-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 6px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.adm-user:last-child { border-bottom: none; }
+
+.au-avatar {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy-700);
+  background: var(--blue-100);
+}
+
+.au-who {
+  flex: 1;
+  min-width: 0;
+}
+
+.au-who b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy-800);
+}
+
+.au-who span {
+  display: block;
+  font-size: 12.4px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.au-meta {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+  font-size: 12.4px;
+  color: var(--muted);
+}
+
+.au-badge {
+  flex: none;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #a16207;
+  background: #fef3c7;
+}
+
+.au-badge.ok {
+  color: #0f9d76;
+  background: #d7f3e9;
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 860px) {
+  .adm-wrap { padding: 0 0 130px; }
+  .adm-savebar-in { padding: 11px 16px; }
+  .adm-title { font-size: 21px; }
+}
+
+@media (max-width: 640px) {
+  .adm-users-tools { width: 100%; }
+  .adm-users-tools input { flex: 1; width: auto; }
+  .adm-user { flex-wrap: wrap; }
+  .au-meta { text-align: left; }
+}
+
+@media (max-width: 520px) {
+  .adm-savebar-in { flex-direction: column; align-items: stretch; }
+  .adm-savebar .btn { width: 100%; }
+}
